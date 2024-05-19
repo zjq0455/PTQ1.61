@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "omniquant"
+name = "ptq1.61"
 version = "0.1.0"
-description = "An efficient, accurate, and omnibearing quantization algorithm for LLMs, encompassing both weight-only quantization (W4A16/W3A16/W2A16) and weight-activation quantization (W8A8, W6A6, W4A4)."
+description = "PTQ1.61: Extremely Low-Bit Post-Training Quantization for Large Language Models."
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
