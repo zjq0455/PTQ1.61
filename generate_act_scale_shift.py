@@ -28,7 +28,7 @@ def get_act_scales(model, dataloader, num_samples=128):
     act_scales = {}
 
     def stat_tensor(name, tensor): #tensor 1*2048*4096
-        hidden_dim = tensor.shape[-1] #最后一个维度 4096
+        hidden_dim = tensor.shape[-1] 
         tensor = tensor.view(-1, hidden_dim).abs().detach() #2048*4096
         comming_max = torch.max(tensor, dim=0)[0].float().cpu() #4096
         if name in act_scales:
@@ -54,7 +54,7 @@ def get_act_scales(model, dataloader, num_samples=128):
     for h in hooks:
         h.remove()
 
-    return act_scales #每一个layer都得到了一个4096维（channel）的最大值
+    return act_scales 
 
 def get_act_shifts(model, dataloader, num_samples=128):
     model.eval()

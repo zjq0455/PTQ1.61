@@ -99,7 +99,7 @@ def blockptqquant(
     )
 
     cache = {"i": 0}
-    # catch the first layer input 第一层的输入
+    # catch the first layer input
     class Catcher(nn.Module):
         def __init__(self, module):
             super().__init__()
@@ -203,17 +203,17 @@ def blockptqquant(
 
                 if args.quant_type == "low":
 
-                    w_mean = weight.mean(1).view(-1, 1) #按行求  # 1*4096
+                    w_mean = weight.mean(1).view(-1, 1) # 1*4096
                     w_mean = torch.where(torch.isnan(w_mean), torch.zeros_like(w_mean), w_mean)
                     # w = torch.where(w!=0, w - w_mean.unsqueeze(-1), w)
-                    scale = weight.abs().mean(1,keepdim=True) #也是按行求
+                    scale = weight.abs().mean(1,keepdim=True) 
                     scale = torch.where(torch.isnan(scale), torch.zeros_like(scale), scale) #1*4096
                 else:
 
                     w = weight * ~(mask.view(1,-1))
-                    w_nonzero_mean = (w * (w != 0).float()).sum(dim=1) / (w != 0).sum(dim=1).float() #按行求
+                    w_nonzero_mean = (w * (w != 0).float()).sum(dim=1) / (w != 0).sum(dim=1).float() 
                     w_nonzero_mean = torch.where(torch.isnan(w_nonzero_mean), torch.zeros_like(w_nonzero_mean), w_nonzero_mean)
-                    scale = ((w * (w != 0)).abs().sum(dim=1) / (w != 0).sum(dim=1).float()).view(-1, 1) #也是按行求 (w * (w != 0)
+                    scale = ((w * (w != 0)).abs().sum(dim=1) / (w != 0).sum(dim=1).float()).view(-1, 1) 
                     scale = torch.where(torch.isnan(scale), torch.zeros_like(scale), scale) 
                     w_mean = w_nonzero_mean.view(-1, 1)
 
@@ -248,7 +248,7 @@ def blockptqquant(
                     index = j * args.batch_size
                     # obtain output of quantization model
                     with traincast():
-                        qlayer.binary_temporary(args.wbits, dev, args.quant_type) # 量化和smooth 权重 得到的权重为反量化后的权重
+                        qlayer.binary_temporary(args.wbits, dev, args.quant_type) 
                         quant_out = qlayer(quant_inps[index:index+args.batch_size,], attention_mask=attention_mask_batch,position_ids=position_ids)[0]
                         loss1 =  loss_func(fp_inps[index:index+args.batch_size,], quant_out) + loss_func(quant_inps_fp[index:index+args.batch_size,], quant_out)
                         cos1 = cossim(quant_out,fp_inps[index:index+args.batch_size,]).mean().abs()
