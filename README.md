@@ -1,13 +1,13 @@
 # PTQ1.61
 
-## Usage
+## Block-wise Optimization and Evaluation
 We use LLaMa-7B as an example here:
 1. Obtain the channel-wise scales required for initialization:
 ```
 python generate_act_scale_shift.py --model /PATH/TO/LLaMA/llama-7b
 ```
 
-2. Weight-only quantization
+2. Training and Evaluation
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/LLAMA/llama-7b --epochs 20 --output_dir ./log/llama-7b --eval_ppl --wbits 4 --abits 16 --quant_type mix --lwc \
 --save_dir /CHECKPOINT/TO/FIRST/PTQ \
@@ -15,20 +15,21 @@ CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/LLAMA/llama-7b --epochs 2
 --tasks piqa,arc_easy,arc_challenge,boolq,hellaswag,winogrande
 ```
 
-3. Compensate with LoRA
+## Quantization Preprocessing
+3. Restorative LoRA
 ```
 cd qat
 CUDA_VISIBLE_DEVICES=0 python finetune_lora.py --model_id /PATH/TO/LLAMA/llama-7b \
 --save_dir /CHECKPOINT/TO/FIRST/PTQ --lora_r 64 -s 20000
 ```
-5. Merge with LoRA
+5. Merge with Quantized Model
 ```
 CUDA_VISIBLE_DEVICES=0 python test_perplexity.py  --model_path /PATH/TO/LLAMA/llama-7b \
 --ckpt /CHECKPOINT/TO/FIRST/PTQ \
 --lora_path ./outputs/CHECKPOINT_NAME/20000-64 \
 --output_path /PATH/TO/MERGED/MODEL
 ```
-6. Second PTQ
+6. PTQ and Evaluation
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/MERGED/MODEL --epochs 20 --output_dir ./log/llama-7b --eval_ppl --wbits 4 --abits 16 --quant_type mix --lwc \
 --save_dir /CHECKPOINT/TO/SECOND/PTQ \
