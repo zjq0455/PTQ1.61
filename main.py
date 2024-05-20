@@ -10,7 +10,7 @@ from lm_eval import evaluator
 from pprint import pprint
 from parallel_utils import map_layers_to_multi_gpus, get_lowest_occupied_gpu
 import torch.nn as nn
-from quantize.blockptq import omniquant
+from quantize.blockptq import blockptqquant
 from tqdm import tqdm
 import utils
 from pathlib import Path
@@ -339,7 +339,7 @@ def main():
         if args.let: """
         act_scales = torch.load(args.act_scales)
         act_shifts = torch.load(args.act_shifts)
-        omniquant(
+        blockptqquant(
             lm,
             args,
             dataloader,
