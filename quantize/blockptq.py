@@ -229,6 +229,8 @@ def blockptqquant(
                 qlayer.register_parameter(f"{name_tmp}_mask",torch.nn.Parameter(mask,requires_grad=False))
 
                 if args.quant_type == "mix":
+                    if not os.path.exists(os.path.join(args.output_dir, "mask/")):
+                        os.mkdir(os.path.join(args.output_dir, "mask/"))
                     torch.save(getattr(qlayer, f"{name_tmp}_mask"), os.path.join(args.output_dir, f"mask/{args.quant_type}_{args.wbits}_{i}_{name_tmp}_mask.pth"))
         
         if args.epochs > 0:
