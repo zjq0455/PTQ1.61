@@ -114,8 +114,6 @@ def bleu(items):
     n-grams in the candidate translation to n-grams in the reference text, where
     1-gram or unigram would be each token and a bigram comparison would be each
     word pair. The comparison is made regardless of word order
-    Source: https://machinelearningmastery.com/calculate-bleu-score-for-text-python/
-    Paper: https://www.aclweb.org/anthology/P02-1040/
 
     Higher is better
     """
@@ -128,8 +126,6 @@ def bleu(items):
 def chrf(items):
     """chrF++ is a tool for automatic evaluation of machine translation output
     based on character n-gram precision and recall enhanced with word n-grams.
-    Source: https://github.com/m-popovic/chrF
-    Paper: https://www.aclweb.org/anthology/W15-3049.pdf
 
     Higher is better  # TODO I think
     """
@@ -143,8 +139,6 @@ def ter(items):
     """Translation Error Rate is an error metric for machine translation that
     measures the number of edits required to change a system output into one
     of the references
-    Source: http://www.cs.umd.edu/~snover/tercom/
-    Paper: http://mt-archive.info/AMTA-2006-Snover.pdf
 
     Lower is better
     """

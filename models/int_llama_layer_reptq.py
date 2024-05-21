@@ -321,18 +321,6 @@ class QuantLlamaDecoderLayer(nn.Module):
                         q_low += mean
                         q_low = r1@r2 * q_low #r1 * q_low * r2
 
-                        """ q_res = module.temp_weight.clone() - q_low
-                        w_mean_res = q_res.mean(0).view(1, -1) #按列求  # 1*4096
-                        w_mean_res = torch.where(torch.isnan(w_mean_res), torch.zeros_like(w_mean_res), w_mean_res)
-                        # w = torch.where(w!=0, w - w_mean.unsqueeze(-1), w)
-                        scale_res = q_res.abs().mean(0,keepdim=True) #也是按列求  weight - w_mean
-                        scale_res = torch.where(torch.isnan(scale), torch.zeros_like(scale_res), scale_res)
-                        q_res = q_res - w_mean_res
-                        q_res = 
-                        q_res = q_res * scale_res
-                        q_res += w_mean_res
-                        q_low = q_low + q_res """
-
                         q_low = q_low * ~mask.view(1,-1)
 
                         module.temp_weight = q_low + q_high
@@ -361,18 +349,6 @@ class QuantLlamaDecoderLayer(nn.Module):
                         q_low = q_sign * scale
                         q_low += mean
                         q_low = r1@r2 * q_low #r1 * q_low * r2
-
-                        """ q_res = module.weight.clone() - q_low
-                        w_mean_res = q_res.mean(0).view(1, -1) #按列求  # 1*4096
-                        w_mean_res = torch.where(torch.isnan(w_mean_res), torch.zeros_like(w_mean_res), w_mean_res)
-                        # w = torch.where(w!=0, w - w_mean.unsqueeze(-1), w)
-                        scale_res = q_res.abs().mean(0,keepdim=True) #也是按列求  weight - w_mean
-                        scale_res = torch.where(torch.isnan(scale), torch.zeros_like(scale_res), scale_res)
-                        q_res = q_res - w_mean_res
-                        q_res = q_res.sign()
-                        q_res = q_res * scale_res
-                        q_res += w_mean_res
-                        q_low = q_low + q_res """
 
                         q_low = q_low * ~mask.view(1,-1)
 
@@ -410,18 +386,6 @@ class QuantLlamaDecoderLayer(nn.Module):
                     q_low = q_sign * scale
                     q_low += mean
                     q_low = r1@r2 * q_low #r1 * q_low * r2
-
-                    """ q_res = module.weight.clone() - q_low
-                    w_mean_res = q_res.mean(0).view(1, -1) #按列求  # 1*4096
-                    w_mean_res = torch.where(torch.isnan(w_mean_res), torch.zeros_like(w_mean_res), w_mean_res)
-                    # w = torch.where(w!=0, w - w_mean.unsqueeze(-1), w)
-                    scale_res = q_res.abs().mean(0,keepdim=True) #也是按列求  weight - w_mean
-                    scale_res = torch.where(torch.isnan(scale), torch.zeros_like(scale_res), scale_res)
-                    q_res = q_res - w_mean_res
-                    q_res = q_res.sign()
-                    q_res = q_res * scale_res
-                    q_res += w_mean_res
-                    q_low = q_low + q_res """
 
                     q_low = q_low * ~mask.view(1,-1)
 

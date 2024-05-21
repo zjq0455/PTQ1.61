@@ -139,7 +139,6 @@ def evaluate(
         for name, task in task_dict.items()
         if (task.has_validation_docs() or task.has_test_docs())
     ]
-    #[('lambada_openai', <lm_eval.tasks.lambada.LambadaOpenAI object at 0x7f9831a186a0>)]
     results = collections.defaultdict(dict)
     versions = collections.defaultdict(dict)
 

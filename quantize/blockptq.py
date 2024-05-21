@@ -188,16 +188,6 @@ def blockptqquant(
                 # saliency = torch.mean(torch.abs(weight),dim=1)
                 thresh = torch.sort(act.flatten(),descending=True)[0][int(act.numel() * 0.2)] #0.1
                 mask = act >= thresh
-                """ mask = torch.zeros(1, weight.shape[1], dtype=torch.bool)
-                saliency = torch.abs(fp_inps[0])
-                thresh = torch.sort(saliency.flatten(),descending=True)[0][int(saliency.numel() * 0.2)]
-                mask = saliency >= thresh
-
-                mask_c = mask.float().cpu()
-                plt.imshow(mask_c, cmap='gray')
-                plt.axis('off')
-                plt.savefig('/root/newBiQuant/highlighted_matrix.png', bbox_inches='tight', pad_inches=0)
-                plt.close() """
 
                 # init scaling factors and means.
 

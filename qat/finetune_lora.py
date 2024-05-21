@@ -183,13 +183,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model_id",
         type=str,
-        default="/mnt/data/share/models/llama-7b",
         help="Pretrained model ID",
     )
     parser.add_argument(
         "--ckpt",
         type=str,
-        default='/mnt/data/wangming/root/newBiQuant/result/llama7b.pt',
         help="PTQ ckpt",
     )
     parser.add_argument(
