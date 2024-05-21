@@ -13,10 +13,6 @@ from datasets import load_dataset
 import functools
 from tqdm import tqdm
 from datautils import get_loaders
-try:
-    from llava.model import *   # required for llava
-except ImportError:
-    print("If want to quantize llave models, you should manually install llava from https://github.com/haotian-liu/LLaVA")
 
 # import pdb
 
@@ -104,8 +100,7 @@ def build_model_and_tokenizer(model_name):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str,
-                        default='/cpfs01/user/chenmengzhao/llama_quantization/llama-hf/llama-7b', help='model name')
+    parser.add_argument('--model', type=str,help='model name')
     parser.add_argument('--scales-output-path', type=str, default='./act_scales/',
                         help='where to save the act scales')
     parser.add_argument('--shifts-output-path', type=str, default='./act_shifts/',

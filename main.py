@@ -19,10 +19,6 @@ from categories import subcategories, categories
 from models.int_llama_layer import QuantLlamaDecoderLayer
 from models.int_opt_layer import QuantOPTDecoderLayer
 from quantize.int_linear import QuantLinear
-try:
-    from llava.model import *   # required for llava
-except ImportError:
-    print("If want to quantize llave models, you should manually install llava from https://github.com/haotian-liu/LLaVA")
 
 import pdb
 
@@ -226,7 +222,6 @@ def main():
     parser.add_argument("--multigpu", action="store_true", help="at eval, map model to multiple gpus")
     parser.add_argument("--deactive_amp", action="store_true", help="deactivate AMP when 8<=bits<16")
     parser.add_argument("--net", type=str, default=None, choices=net_choices)
-    # parser.add_argument("--net", type=str, default="llama-7b") # change here
     parser.add_argument("--act-scales", type=str, default=None)
     parser.add_argument("--act-shifts", type=str, default=None)
     parser.add_argument("--quant_type", type=str, default="low")
