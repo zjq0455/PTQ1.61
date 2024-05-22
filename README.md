@@ -18,8 +18,8 @@ CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/LLAMA/llama-7b --epochs 2
 ## Quantization Preprocessing
 3. Restorative LoRA
 ```
-cd qat
-CUDA_VISIBLE_DEVICES=0 python finetune_lora.py --model_id /PATH/TO/LLAMA/llama-7b \
+cd preprocessing
+CUDA_VISIBLE_DEVICES=0 python restorative_lora.py --model_id /PATH/TO/LLAMA/llama-7b \
 --save_dir /CHECKPOINT/TO/FIRST/PTQ --lora_r 64 -s 20000
 ```
 5. Merge with Quantized Model
@@ -40,7 +40,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/MERGED/MODEL --epochs 20 
 More detailed and optional arguments:
 - `--model`: the local model path or huggingface format.
 - `--wbits`: weight quantization bits.
-- `--quant_type`: quantization type.
+- `--quant_type`: quantization type, mix means using structured masks.
 - `--lwc`: activate the weight quantizer.
 - `--epochs`: training epochs.
 - `--nsamples`: number of calibration samples, 128 as default.
