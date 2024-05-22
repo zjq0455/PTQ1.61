@@ -111,10 +111,10 @@ def evaluate(model, tokenizer_path, logger):
     return results
 
 if __name__ == "__main__":
-    model_path = "/root/myModels/opt-2.7b"
-    lora_path = "/root/newBiQuant/qat/20000"
-    output_path = "/root/newBiQuant/qat/opt-2.7b_merged_mix_4_current-20000"
-    ckpt = "/root/newBiQuant/log/opt-2.7b/mix_4_current.pth"
+    model_path = "path"
+    lora_path = "path"
+    output_path = "path"
+    ckpt = "path"
     model = get_accelerate_model(model_path, ckpt, lora_path, output_path)
     model.eval()
     # import pdb
