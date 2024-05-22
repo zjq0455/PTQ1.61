@@ -49,12 +49,5 @@ More detailed and optional arguments:
 - `--multigpu`: to inference larger network on multiple GPUs
 - `--save_dir`: saving the quantization model for further exploration.
 
-## Related Project
-
-[GPTQ: Accurate Post-training Compression for Generative Pretrained Transformers](https://github.com/IST-DASLab/gptq)
-
-[OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models](https://arxiv.org/abs/2308.13137)
-
-[PB-LLM: Partially Binarized Large Language Models](https://github.com/hahnyuan/PB-LLM)
-
-[BiLLM: Pushing the Limit of Post-Training Quantization for LLMs](https://github.com/Aaronhuang-778/BiLLM)
+## LM_EVAL
+'lm_eval' file is lm-evaluation-harness, a open-sourced evaluation framework from https://github.com/EleutherAI/lm-evaluation-harness, contains datasets, benchmarks, etc.
