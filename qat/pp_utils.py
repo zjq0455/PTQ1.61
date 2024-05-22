@@ -15,7 +15,7 @@ def set_seed(seed):
 
 def get_pile(nsamples, seed, seqlen, model):
     print("get_pile")
-    traindata = load_dataset("json", data_files='/cpfs01/user/chenmengzhao/prompt_quantization/val.jsonl.zst', split="train")
+    traindata = load_dataset("json", data_files='path', split="train")
 
     tokenizer = AutoTokenizer.from_pretrained(model, use_fast=False)
     trainenc = tokenizer("\n\n".join(traindata['text'][:1000]), return_tensors='pt')
