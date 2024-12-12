@@ -14,6 +14,23 @@ CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/LLAMA/llama-7b --epochs 2
 --calib_dataset wikitext2  \
 ```
 
+More detailed and optional arguments:
+- `--model`: the local model path or huggingface format.
+- `--wbits`: weight quantization bits.
+- `--quant_type`: quantization type, mix means using structured masks.
+- `--lwc`: activate the weight quantizer.
+- `--epochs`: training epochs.
+- `--nsamples`: number of calibration samples, 128 as default.
+- `--eval_ppl`: evaluating the perplexity of quantized models.
+- `--multigpu`: to inference larger network on multiple GPUs
+- `--save_dir`: saving the quantization model for further exploration.
+
+3. Reproduce the evaluation results of our paper.
+
+1) Download the prebuilt quantized model from our anonymous huggingface repo: https://huggingface.co/ptq161.
+2) The detailed reproduction methods please refer to **reproduce.ipynb**.
+
+
 ## Quantization Preprocessing
 3. Preprocessing
 ```
@@ -38,14 +55,3 @@ CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/MERGED/MODEL --epochs 20 
 Please follow lm-eval-harness for evaluating Hellaswag, PIQA, MMLU, GSM8K, LAMBADA, etc. 
 
 'lm_eval' file is lm-evaluation-harness, a open-sourced evaluation framework from https://github.com/EleutherAI/lm-evaluation-harness, contains datasets, benchmarks, etc.
-
-More detailed and optional arguments:
-- `--model`: the local model path or huggingface format.
-- `--wbits`: weight quantization bits.
-- `--quant_type`: quantization type, mix means using structured masks.
-- `--lwc`: activate the weight quantizer.
-- `--epochs`: training epochs.
-- `--nsamples`: number of calibration samples, 128 as default.
-- `--eval_ppl`: evaluating the perplexity of quantized models.
-- `--multigpu`: to inference larger network on multiple GPUs
-- `--save_dir`: saving the quantization model for further exploration.
