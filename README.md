@@ -7,35 +7,37 @@ We use LLaMa-7B as an example here:
 python generate_act_scale_shift.py --model /PATH/TO/LLaMA/llama-7b
 ```
 
-2. Training and Evaluation
+2. Training and Evaluating PPL
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/LLAMA/llama-7b --epochs 20 --output_dir ./log/llama-7b --eval_ppl --wbits 4 --abits 16 --quant_type mix --lwc \
 --save_dir /CHECKPOINT/TO/FIRST/PTQ \
 --calib_dataset wikitext2  \
---tasks piqa,arc_easy,arc_challenge,boolq,hellaswag,winogrande
 ```
 
 ## Quantization Preprocessing
-3. Restorative LoRA
+3. Preprocessing
 ```
 cd preprocessing
 CUDA_VISIBLE_DEVICES=0 python restorative_lora.py --model_id /PATH/TO/LLAMA/llama-7b \
---save_dir /CHECKPOINT/TO/FIRST/PTQ --lora_r 64 -s 20000
-```
-5. Merge with Quantized Model
-```
+--save_dir /CHECKPOINT/TO/FIRST/PTQ
+
 CUDA_VISIBLE_DEVICES=0 python test_perplexity.py  --model_path /PATH/TO/LLAMA/llama-7b \
 --ckpt /CHECKPOINT/TO/FIRST/PTQ \
 --lora_path ./outputs/CHECKPOINT_NAME/20000-64 \
 --output_path /PATH/TO/MERGED/MODEL
 ```
-6. PTQ and Evaluation
+4. Evaluation PPL after Preprocessing
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py --model /PATH/TO/MERGED/MODEL --epochs 20 --output_dir ./log/llama-7b --eval_ppl --wbits 4 --abits 16 --quant_type mix --lwc \
 --save_dir /CHECKPOINT/TO/SECOND/PTQ \
 --calib_dataset wikitext2  \
---tasks piqa,arc_easy,arc_challenge,boolq,hellaswag,winogrande
 ```
+
+## Reasoning Tasks Evaluation
+
+Please follow lm-eval-harness for evaluating Hellaswag, PIQA, MMLU, GSM8K, LAMBADA, etc. 
+
+'lm_eval' file is lm-evaluation-harness, a open-sourced evaluation framework from https://github.com/EleutherAI/lm-evaluation-harness, contains datasets, benchmarks, etc.
 
 More detailed and optional arguments:
 - `--model`: the local model path or huggingface format.
@@ -45,9 +47,5 @@ More detailed and optional arguments:
 - `--epochs`: training epochs.
 - `--nsamples`: number of calibration samples, 128 as default.
 - `--eval_ppl`: evaluating the perplexity of quantized models.
-- `--tasks`: evaluating zero-shot tasks.
 - `--multigpu`: to inference larger network on multiple GPUs
 - `--save_dir`: saving the quantization model for further exploration.
-
-## LM_EVAL
-'lm_eval' file is lm-evaluation-harness, a open-sourced evaluation framework from https://github.com/EleutherAI/lm-evaluation-harness, contains datasets, benchmarks, etc.

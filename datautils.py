@@ -84,10 +84,10 @@ def get_c4(nsamples, seed, seqlen, model):
     #    'allenai/c4', 'allenai--c4', data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation'
     #)
     traindata = load_dataset(
-        'json', data_files={'train': '/root/dataset/c4/en/c4-train.00000-of-01024.json'}, split='train'
+        'json', data_files={'train': '/share/c4/en/c4-train.00000-of-01024.json'}, split='train'
     )
     valdata = load_dataset(
-        'json', data_files={'validation': '/root/dataset/c4/en/c4-validation.00000-of-00008.json'}, split='validation'
+        'json', data_files={'validation': '/share/c4/en/c4-validation.00000-of-00008.json'}, split='validation'
     )
 
 
@@ -99,7 +99,7 @@ def get_c4(nsamples, seed, seqlen, model):
         while True:
             i = random.randint(0, len(traindata) - 1)
             trainenc = tokenizer(traindata[i]['text'], return_tensors='pt')
-            if trainenc.input_ids.shape[1] >= seqlen:
+            if trainenc.input_ids.shape[1] > seqlen:
                 break
         i = random.randint(0, trainenc.input_ids.shape[1] - seqlen - 1)
         j = i + seqlen
@@ -155,10 +155,10 @@ def get_c4_new(nsamples, seed, seqlen, model):
     #    'allenai/c4', 'allenai--c4',data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation'
     #)
     traindata = load_dataset(
-        'json', data_files={'train': '/root/dataset/c4/en/c4-train.00000-of-01024.json'}, split='train'
+        'json', data_files={'train': '/share/c4/en/c4-train.00000-of-01024.json'}, split='train'
     )
     valdata = load_dataset(
-        'json', data_files={'validation': '/root/dataset/c4/en/c4-validation.00000-of-00008.json'}, split='validation'
+        'json', data_files={'validation': '/share/c4/en/c4-validation.00000-of-00008.json'}, split='validation'
     )
 
     tokenizer = AutoTokenizer.from_pretrained(model, use_fast=False)
@@ -169,7 +169,7 @@ def get_c4_new(nsamples, seed, seqlen, model):
         while True:
             i = random.randint(0, len(traindata) - 1)
             trainenc = tokenizer(traindata[i]["text"], return_tensors="pt")
-            if trainenc.input_ids.shape[1] >= seqlen:
+            if trainenc.input_ids.shape[1] > seqlen:
                 break
         i = random.randint(0, trainenc.input_ids.shape[1] - seqlen - 1)
         j = i + seqlen

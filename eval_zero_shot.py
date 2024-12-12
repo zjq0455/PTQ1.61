@@ -91,7 +91,7 @@ def evaluate(lm, args, logger):
     if args.eval_ppl:
         
         lm.model.eval()
-        for dataset in ["wikitext2", "ptb", "c4",]: # "ptb-new",'c4-new'
+        for dataset in ["c4", "ptb-new",'c4-new']: # "wikitext2", "ptb", 
             cache_testloader = f'{args.cache_dir}/testloader_{args.model_family}_{dataset}_all.cache'
             if os.path.exists(cache_testloader):
                 testloader = torch.load(cache_testloader)
@@ -340,7 +340,7 @@ def main():
             logger,
         )
         logger.info(time.time() - tick)
-        lm.model.load_state_dict(torch.load(os.path.join(args.output_dir, f"{args.quant_type}_{args.wbits}_current.pth")))
+        lm.model.load_state_dict(torch.load(os.path.join(args.output_dir, "Llama-2-70b-hf_2_current.pth"))) #f"{args.quant_type}_{args.wbits}_current.pth"
         lm.model.eval()
     logger.info("loaded reptq weights")
     evaluate(lm, args,logger)

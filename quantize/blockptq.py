@@ -13,7 +13,7 @@ import os
 import pdb
 import gc
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 def get_named_linears(module):
@@ -153,7 +153,15 @@ def blockptqquant(
     
 
     attention_mask = cache["attention_mask"]
-    attention_mask_batch = attention_mask.repeat(args.batch_size,1,1,1) if args.deactive_amp else attention_mask.repeat(args.batch_size,1,1,1).float()
+
+    if attention_mask is not None:
+        attention_mask_batch = attention_mask.repeat(args.batch_size,1,1,1) if args.deactive_amp else attention_mask.repeat(args.batch_size,1,1,1).float()
+    else:
+        logger.info(
+            "No attention mask caught from the first layer."
+            " Seems that model's attention works without a mask."
+        )
+        attention_mask_batch = None
     loss_func = torch.nn.MSELoss()
     if is_llama:
         position_ids = cache["position_ids"]
@@ -186,7 +194,7 @@ def blockptqquant(
                 act = act_scales[f"{layer_name_prefix}.{i}.{name}"].to(device=dev, dtype=dtype).clamp(min=1e-5) #4096
                 mask = torch.zeros(1, weight.shape[1], dtype=torch.bool)
                 # saliency = torch.mean(torch.abs(weight),dim=1)
-                thresh = torch.sort(act.flatten(),descending=True)[0][int(act.numel() * 0.2)] #0.1
+                thresh = torch.sort(act.flatten(),descending=True)[0][int(act.numel() * 0.2)] #0.2
                 mask = act >= thresh
 
                 # init scaling factors and means.
@@ -263,7 +271,7 @@ def blockptqquant(
         
         # real smooth and quantization
         qlayer.binary_inplace(args.wbits, dev, args.quant_type)      
-        qlayer.binary_inplace(args.wbits, dev, args.quant_type)
+        # qlayer.binary_inplace(args.wbits, dev, args.quant_type)
         if args.epochs>0:
             # update input of quantization model
             with torch.no_grad():
