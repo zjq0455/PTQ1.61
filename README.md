@@ -40,7 +40,7 @@ CUDA_VISIBLE_DEVICES=0 python restorative_lora.py --model_id /PATH/TO/LLAMA/llam
 
 CUDA_VISIBLE_DEVICES=0 python test_perplexity.py  --model_path /PATH/TO/LLAMA/llama-7b \
 --ckpt /CHECKPOINT/TO/FIRST/PTQ \
---lora_path ./outputs/CHECKPOINT_NAME/20000-64 \
+--lora_path ./outputs/CHECKPOINT_NAME/step-r \
 --output_path /PATH/TO/MERGED/MODEL
 ```
 4. Evaluation PPL after Preprocessing
