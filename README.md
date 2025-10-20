@@ -33,10 +33,11 @@ More detailed and optional arguments:
 
 ## Quantization Preprocessing
 3. Preprocessing
+After the first time PTQ, run:
 ```
 cd preprocessing
 CUDA_VISIBLE_DEVICES=0 python restorative_lora.py --model_id /PATH/TO/LLAMA/llama-7b \
---save_dir /CHECKPOINT/TO/FIRST/PTQ
+--ckpt /CHECKPOINT/TO/FIRST/PTQ
 
 CUDA_VISIBLE_DEVICES=0 python test_perplexity.py  --model_path /PATH/TO/LLAMA/llama-7b \
 --ckpt /CHECKPOINT/TO/FIRST/PTQ \
